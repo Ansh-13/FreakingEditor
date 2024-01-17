@@ -11,16 +11,13 @@ router.get('/login',(req,res) => {
 })
 
 router.post('/signup', async (req,res) =>{
+    const {email,username,password} =  req.body
     try{
-        const {username,password} = req.body
-        console.log('request has been made')
-        const user = await Userauth.create({username,password})
-        console.log("this is working")
-        console.log(user)
-        res.status(200).json(user)
-    } catch{(err) => {
-        res.status(400).json({err:err.message})
-    }}
+        const user = Userauth.signup(email,username,password);
+        res.status(200).json({email,user})
+    } catch (error) {
+        res.status(400).json(error,error.message)
+    }
 })
 
 router.patch('/forgotpassword',(req,res) => {
